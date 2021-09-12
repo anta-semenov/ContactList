@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import { Animated, LayoutChangeEvent } from 'react-native'
 import { LayoutState, Point } from 'types'
 
@@ -91,4 +91,12 @@ export const useAnimation = (initialAnimationValue: number, onMountAnimationConf
     value: animationValue,
     addListener,
   }
+}
+
+export const useIsFirstMount = () => {
+  const isMountRef = React.useRef(true);
+  React.useEffect(() => {
+    isMountRef.current = false;
+  }, []);
+  return isMountRef.current;
 }
