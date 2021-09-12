@@ -1,52 +1,57 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react'
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native'
+import { SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { AppContext } from 'appContext'
+import { Avatar, Details, ListWithHeader } from 'components'
+import { contacts } from './data/contacts'
+import { avatarSize } from 'constants/'
 
 export const App: React.FunctionComponent = () => {
-  const isDarkMode = useColorScheme() === 'dark'
+  const [activeContactIndex, setActiveContactIndex] = React.useState(0)
 
-  const backgroundStyle = {
-    backgroundColor: '#fa45ec',
-    flex: 1,
-  }
+
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-    </SafeAreaView>
+    <AppContext.Provider value={ { activeContactIndex } }>
+      <SafeAreaView style={ { backgroundColor: '#e8e8e8' } }>
+        <StatusBar barStyle={ 'dark-content' } />
+        <View style={ styles.header }>
+          <Text style={ styles.headerTitile }>Contacts</Text>
+        </View>
+        <ListWithHeader
+          headerItemSize={ { width: avatarSize, height: avatarSize + 10 } }
+          items={ contacts }
+          renderHeaderItem={ (info) => <Avatar image={ info.item.avatar } index={ info.index }/> }
+          renderDetailsItem={ (info) => (
+            <Details
+              fisrtName={ info.item.firstName }
+              lastName={ info.item.lastName }
+              jobTitle={ info.item.job }
+              bio={ info.item.bio }
+            />
+          ) }
+          style={ styles.contentContainer }
+          onActiveItemChange={ (value) => setActiveContactIndex(value) }
+          headerContainerStyle={ { marginTop: 10 } }
+        />
+      </SafeAreaView>
+    </AppContext.Provider>
   )
 }
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  header: {
+    paddingVertical: 20,
+    borderBottomWidth: 2,
+    borderBottomColor: '#bdbdbd',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
+  headerTitile: {
+    color: '#000000',
+    fontSize: 20,
     fontWeight: '400',
   },
-  highlight: {
-    fontWeight: '700',
+  contentContainer: {
+    backgroundColor: '#ffffff',
   },
 })
