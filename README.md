@@ -2,6 +2,14 @@
 
 ![Demo](./demo.gif)
 
+## Init project
+
+For init project you need to
+
+- run `yarn` to install dependencies
+
+- run `cd ios && pod install` to install ios pods
+
 ## Scripts
 
 - run `yarn ios` to start app on ios simulator. You can specify exacct simulator with `--simulator` option (for example `--simulator="iPhone 7"`)
